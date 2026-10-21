@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Compra confirmada | Angelli{% endblock %}
+{% block content %}<section class="cart-page wrap"><div class="empty-cart purchase-confirmed"><div>✓</div><span class="eyebrow">ANGELLI PAPELERÍA</span><h2>¡Compra de demostración finalizada!</h2><p>El carrito se vació correctamente. Esta es una simulación escolar; no se hizo ningún cobro ni se envió un pedido real.</p><p class="confirmed-total">Total simulado: <strong>${{ "%.2f"|format(total) }} MXN</strong></p><a class="button" href="{{ url_for('inicio') }}#catalogo">SEGUIR COMPRANDO</a></div></section>{% endblock %}

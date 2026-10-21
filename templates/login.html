@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Iniciar sesión | Angelli{% endblock %}
+{% block content %}
+<section class="login-page">
+  <div class="login-card">
+    <div class="login-logo">A</div>
+    <span class="eyebrow">BIENVENIDA/O A ANGELLI</span>
+    <h1>Iniciar sesión</h1>
+    <p>Entra como cliente con tu correo o como administradora con tu usuario.</p>
+    <form method="post" class="login-form">
+      <label for="usuario">Usuario administrador o correo</label>
+      <input id="usuario" name="usuario" autocomplete="username" required placeholder="Correo o usuario">
+      <label for="contrasena">Contraseña</label>
+      <input id="contrasena" name="contrasena" type="password" autocomplete="current-password" required placeholder="Escribe tu contraseña">
+      <button class="button login-submit" type="submit">ENTRAR A MI CUENTA →</button>
+    </form>
+    <p class="account-prompt">¿Todavía no tienes cuenta? <a href="{{ url_for('registro') }}">Crear una cuenta</a></p>
+    <a class="back-link" href="{{ url_for('inicio') }}">← Volver a la tienda</a>
+    <div class="demo-note"><b>Acceso de administración de demostración</b><br>Usuario: <code>angelli</code><br>Contraseña: <code>Angelli2026!</code><br><small>Los clientes deben ingresar con su correo registrado.</small></div>
+  </div>
+</section>
+{% endblock %}

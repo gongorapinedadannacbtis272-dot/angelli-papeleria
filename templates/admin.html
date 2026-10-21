@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Administración | Angelli{% endblock %}
+{% block content %}
+<section class="admin-page wrap">
+  <div class="admin-head"><div><span class="eyebrow">PANEL PRIVADO</span><h1>Administrar catálogo</h1><p>Hola, {{ session.get('usuario') }}. Aquí puedes registrar artículos.</p></div><a class="outline-button" href="{{ url_for('logout') }}">Cerrar sesión</a></div>
+  {% if not mongo_activo %}<div class="flash warning">Modo demostración: puedes ver el panel, pero para guardar permanentemente necesitas conectar MongoDB Atlas con la variable MONGO_URI.</div>{% endif %}
+  <div class="admin-layout">
+    <section class="admin-box"><h2>＋ Agregar producto</h2><form action="{{ url_for('agregar_producto') }}" method="post" class="admin-form">
+      <label for="nombre">Nombre del producto</label><input id="nombre" name="nombre" maxlength="80" required placeholder="Ej. Cuaderno profesional">
+      <label for="categoria">Categoría</label><input id="categoria" name="categoria" maxlength="30" required placeholder="Ej. Cuadernos">
+      <label for="precio">Precio (MXN)</label><input id="precio" name="precio" type="number" min="0" step="0.01" required placeholder="0.00">
+      <label for="estado">Estado</label><select id="estado" name="estado"><option>Disponible</option><option>Agotado</option></select>
+      <button class="button" type="submit">GUARDAR PRODUCTO</button>
+    </form></section>
+    <section class="admin-box"><h2>Productos registrados <span class="count">{{ productos|length }}</span></h2>
+      <div class="table-scroll"><table><thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Estado</th>{% if mongo_activo %}<th>Acción</th>{% endif %}</tr></thead><tbody>
+      {% for p in productos %}<tr><td>{{ p.get('nombre', '') }}</td><td>{{ p.get('categoria', '') }}</td><td>${{ "%.2f"|format(p.get('precio', 0)|float) }}</td><td>{{ p.get('estado', '') }}</td>{% if mongo_activo %}<td><form action="{{ url_for('eliminar_producto', producto_id=p['_id']) }}" method="post" onsubmit="return confirm('¿Eliminar este producto?')"><button class="delete-button" type="submit">Eliminar</button></form></td>{% endif %}</tr>{% else %}<tr><td colspan="5">Todavía no hay productos registrados.</td></tr>{% endfor %}
+      </tbody></table></div>
+    </section>
+  </div>
+</section>
+{% endblock %}

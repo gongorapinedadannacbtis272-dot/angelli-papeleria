@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Angelli | Papelería y creatividad{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="wrap hero-content">
+    <div class="eyebrow">PAPELERÍA · ARTE · ORGANIZACIÓN</div>
+    <h1>Un mundo de ideas<br><em>comienza aquí.</em></h1>
+    <p>Encuentra tus básicos escolares y dale color a cada proyecto.</p>
+    <a class="button" href="#catalogo">EXPLORAR CATÁLOGO &nbsp; →</a>
+  </div>
+  <div class="hero-art"><span class="blob blob1"></span><span class="blob blob2"></span><div class="paper paper1">✎</div><div class="paper paper2">A+</div><div class="pencil">✏️</div><div class="sticker">¡A crear!</div></div>
+</section>
+<section class="wrap categories">
+  <div class="category"><span>📚</span><div><b>Escolar</b><small>Lo esencial para clases</small></div></div>
+  <div class="category"><span>🖍️</span><div><b>Arte y color</b><small>Libera tu creatividad</small></div></div>
+  <div class="category"><span>🗂️</span><div><b>Organización</b><small>Todo en su lugar</small></div></div>
+  <div class="category"><span>✂️</span><div><b>Manualidades</b><small>Crea algo especial</small></div></div>
+</section>
+<section class="catalog wrap" id="catalogo">
+  <div class="section-heading"><div><span class="eyebrow">NUESTROS FAVORITOS</span><h2>Productos destacados</h2></div><span class="muted">Una selección para inspirarte ✨</span></div>
+  {% if termino %}<p>Resultados para: <strong>{{ termino }}</strong> · <a href="{{ url_for('inicio') }}#catalogo">Ver todos</a></p>{% endif %}
+  <div class="product-grid">
+  {% for p in productos %}
+    <article class="product-card">
+      <div class="product-picture picture-{{ loop.index0 % 6 }}"><span class="product-emoji">{{ p.get('emoji', '📦') }}</span><span class="tag">{{ p.get('categoria', 'Escolar') }}</span></div>
+      <div class="product-info">
+        <h3>{{ p.get('nombre', 'Producto') }}</h3>
+        <div class="product-bottom"><strong>${{ "%.2f"|format(p.get('precio', 0)|float) }} MXN</strong><span class="stock {{ 'out' if p.get('estado') == 'Agotado' else '' }}">{{ p.get('estado', 'Disponible') }}</span></div>
+        <form action="{{ url_for('carrito_agregar', producto_id=p.get('_id')|string) }}" method="post">
+          <button class="small-button" type="submit" {% if p.get('estado') == 'Agotado' %}disabled title="Producto agotado"{% endif %}>
+            {% if p.get('estado') == 'Agotado' %}Agotado{% else %}🛒 Agregar al carrito{% endif %}
+          </button>
+        </form>
+      </div>
+    </article>
+  {% else %}
+    <p>No encontramos productos con esa búsqueda.</p>
+  {% endfor %}
+  </div>
+</section>
+<section class="about" id="nosotros"><div class="wrap about-inner"><div class="about-icon">✿</div><div><span class="eyebrow">HOLA, SOMOS ANGELLI</span><h2>Pequeños detalles,<br>grandes ideas.</h2><p>Queremos acompañarte en tus tareas, proyectos y momentos creativos con artículos de papelería para cada ocasión.</p></div><a class="button button-light" href="{{ url_for('registro') }}">CREAR UNA CUENTA</a></div></section>
+{% endblock %}

@@ -1,0 +1,31 @@
+PAPELERIA ANGELLI - COMO ABRIR Y PROBAR
+
+1. Extrae este ZIP en tu computadora.
+2. Abre Visual Studio Code.
+3. Ve a Archivo > Abrir carpeta y elige la carpeta angelli_papeleria.
+4. Abre Terminal > Nueva terminal.
+5. Ejecuta estos comandos, uno por uno:
+
+   py -m venv .venv
+   .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+   .\.venv\Scripts\python.exe app.py
+
+6. Abre el navegador y entra a:
+   http://127.0.0.1:5000
+
+FUNCIONES INCLUIDAS
+- Carrito: agregar productos, cambiar cantidades, eliminar productos,
+  vaciar carrito, calcular total y finalizar una compra de demostración.
+- Registro de cuentas de clientes e inicio de sesión con correo.
+- Acceso separado para la cuenta de administración.
+- Las cuentas de cliente no pueden entrar al panel de administración.
+
+CUENTA ADMINISTRADORA DE DEMOSTRACION
+Usuario: angelli
+Contraseña: Angelli2026!
+
+IMPORTANTE
+Sin configurar MONGO_URI, las cuentas creadas son temporales y se borran
+al detener o reiniciar la aplicación. Para conservar cuentas y productos,
+configura tu propia base de datos MongoDB Atlas. El proceso de compra es una
+simulación escolar: no cobra dinero ni crea pedidos reales.

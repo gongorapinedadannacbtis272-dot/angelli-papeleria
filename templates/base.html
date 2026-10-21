@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Angelli | Papelería y creatividad{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+  <div class="topline">
+    <span>✦ Todo para tus ideas ✦</span>
+    <span>Atención con cariño · Papelería Angelli</span>
+  </div>
+  <header class="header wrap">
+    <a class="brand" href="{{ url_for('inicio') }}">
+      <span class="brand-mark">A</span>
+      <span><strong>Angelli</strong><small>PAPELERÍA & CREATIVIDAD</small></span>
+    </a>
+    <form class="search" action="{{ url_for('inicio') }}" method="get">
+      <input name="q" value="{{ termino|default('') }}" placeholder="Busca cuadernos, plumas..." aria-label="Buscar productos">
+      <button aria-label="Buscar">⌕</button>
+    </form>
+    <div class="header-actions">
+      <a class="cart-header-link" href="{{ url_for('ver_carrito') }}">🛒 Carrito ({{ cantidad_carrito }})</a>
+      {% if session.get('usuario') %}
+        <a class="login-link" href="{{ url_for('admin') if session.get('rol') == 'admin' else url_for('logout') }}">♙ {{ session.get('usuario') }}{% if session.get('rol') != 'admin' %} · Salir{% endif %}</a>
+      {% else %}
+        <a class="login-link" href="{{ url_for('login') }}">♙ Iniciar sesión</a>
+      {% endif %}
+    </div>
+  </header>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="nav-home" href="{{ url_for('inicio') }}#catalogo">☰ &nbsp; CATEGORÍAS</a>
+      <a href="{{ url_for('inicio') }}">INICIO</a>
+      <a href="{{ url_for('inicio') }}#catalogo">CATÁLOGO</a>
+      <a href="{{ url_for('inicio') }}#nosotros">NOSOTROS</a>
+      <a href="{{ url_for('inicio') }}#contacto">CONTACTO</a>
+      {% if session.get('rol') == 'admin' %}<a class="nav-special" href="{{ url_for('admin') }}">ADMINISTRAR</a>{% endif %}
+      <a class="cart-link" href="{{ url_for('ver_carrito') }}">🛒 CARRITO ({{ cantidad_carrito }})</a>
+    </div>
+  </nav>
+  {% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% if mensajes %}<div class="wrap flashes">{% for tipo, mensaje in mensajes %}<div class="flash {{ tipo }}">{{ mensaje }}</div>{% endfor %}</div>{% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+  <footer id="contacto">
+    <div class="wrap footer-grid">
+      <div><h3>CONTACTO</h3><p>⌖ Cancún, Quintana Roo</p><p>✉ hola@angelli-papeleria.example</p><p>☎ Atención en tienda</p></div>
+      <div><h3>ANGELLI</h3><p>Ideas bonitas empiezan aquí.</p><p>Cuadernos, colores y materiales para crear.</p></div>
+      <div><h3>SÍGUENOS</h3><p class="socials">f &nbsp; ◎ &nbsp; ♪ &nbsp; ♡</p><p>Gracias por apoyar un proyecto local.</p></div>
+    </div>
+    <div class="copyright">© 2026 Angelli Papelería · Proyecto escolar de demostración</div>
+  </footer>
+</body>
+</html>

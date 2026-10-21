@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Crear cuenta | Angelli{% endblock %}
+{% block content %}
+<section class="login-page">
+  <div class="login-card">
+    <div class="login-logo">A</div>
+    <span class="eyebrow">ÚNETE A ANGELLI</span>
+    <h1>Crear una cuenta</h1>
+    <p>Regístrate como cliente para tener tu propia cuenta en la papelería.</p>
+    <form method="post" class="login-form">
+      <label for="nombre">Nombre completo</label>
+      <input id="nombre" name="nombre" autocomplete="name" maxlength="60" required placeholder="Tu nombre">
+      <label for="correo">Correo electrónico</label>
+      <input id="correo" name="correo" type="email" autocomplete="email" maxlength="120" required placeholder="tucorreo@ejemplo.com">
+      <label for="contrasena">Contraseña (mínimo 8 caracteres)</label>
+      <input id="contrasena" name="contrasena" type="password" autocomplete="new-password" minlength="8" required placeholder="Crea una contraseña">
+      <label for="confirmar">Confirmar contraseña</label>
+      <input id="confirmar" name="confirmar" type="password" autocomplete="new-password" minlength="8" required placeholder="Repite la contraseña">
+      <button class="button login-submit" type="submit">CREAR MI CUENTA →</button>
+    </form>
+    <p class="account-prompt">¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Iniciar sesión</a></p>
+    <a class="back-link" href="{{ url_for('inicio') }}">← Volver a la tienda</a>
+  </div>
+</section>
+{% endblock %}

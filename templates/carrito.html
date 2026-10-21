@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Mi carrito | Angelli{% endblock %}
+{% block content %}
+<section class="cart-page wrap">
+  <div class="section-heading"><div><span class="eyebrow">TU SELECCIÓN</span><h2>Mi carrito 🛒</h2></div><a class="outline-button" href="{{ url_for('inicio') }}#catalogo">Seguir comprando</a></div>
+  {% if items %}
+  <div class="cart-table-wrap"><table class="cart-table"><thead><tr><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th><th>Acción</th></tr></thead><tbody>
+  {% for item in items %}<tr><td><span class="cart-product-emoji">{{ item.producto.get('emoji', '📦') }}</span><strong>{{ item.producto.get('nombre', 'Producto') }}</strong></td><td>${{ "%.2f"|format(item.producto.get('precio', 0)|float) }} MXN</td><td><form class="quantity-form" action="{{ url_for('carrito_cantidad', producto_id=item.id) }}" method="post"><input aria-label="Cantidad" name="cantidad" type="number" min="0" max="99" value="{{ item.cantidad }}"><button class="small-button" type="submit">Actualizar</button></form></td><td><strong>${{ "%.2f"|format(item.subtotal) }} MXN</strong></td><td><form action="{{ url_for('carrito_eliminar', producto_id=item.id) }}" method="post"><button class="delete-button" type="submit">Eliminar</button></form></td></tr>{% endfor %}
+  </tbody></table></div>
+  <div class="cart-summary"><form action="{{ url_for('carrito_vaciar') }}" method="post"><button class="outline-button" type="submit">Vaciar carrito</button></form><div class="cart-total"><span>Total</span><strong>${{ "%.2f"|format(total) }} MXN</strong><form action="{{ url_for('carrito_finalizar') }}" method="post"><button class="button" type="submit">FINALIZAR COMPRA</button></form></div></div>
+  {% else %}
+  <div class="empty-cart"><div>🛒</div><h3>Tu carrito está vacío</h3><p>Agrega tus productos favoritos desde el catálogo.</p><a class="button" href="{{ url_for('inicio') }}#catalogo">IR AL CATÁLOGO</a></div>
+  {% endif %}
+</section>
+{% endblock %}
