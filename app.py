@@ -65,6 +65,30 @@ productos_demo = [
 ]
 
 
+# Completa el catálogo de MongoDB con los productos de demostración que falten.
+# No borra ni reemplaza los productos que ya existen.
+if db is not None:
+    try:
+        nombres_existentes = {
+            str(producto.get("nombre", "")).strip().casefold()
+            for producto in db["productos"].find({}, {"nombre": 1})
+        }
+
+        productos_faltantes = [
+            {clave: valor for clave, valor in producto.items() if clave != "_id"}
+            for producto in productos_demo
+            if str(producto.get("nombre", "")).strip().casefold()
+            not in nombres_existentes
+        ]
+
+        if productos_faltantes:
+            db["productos"].insert_many(productos_faltantes)
+            app.logger.info("Se agregaron %s productos iniciales a MongoDB.", len(productos_faltantes))
+    except PyMongoError:
+        # El error se registra y podrá diagnosticarse en los logs de Render.
+        app.logger.exception("No se pudieron completar los productos iniciales de MongoDB.")
+
+
 def requiere_admin(func):
     """Deja las rutas de administración solamente para el rol admin."""
     @wraps(func)
